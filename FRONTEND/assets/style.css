@@ -196,7 +196,7 @@ footer nav ul {
 	margin: 40px 0;
 }
 
-.filter__btn {
+.filterBtn {
 	font-family: "Syne";
 	padding: 10px 20px;
 	margin: 0 15px;
@@ -210,7 +210,7 @@ footer nav ul {
 	transition: all 0.5s ease;
 }
 
-.filter__btn--active {
+.filterBtn-actif {
 	color: white;
 	background-color: #1D6154;
 }

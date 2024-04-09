@@ -2,7 +2,6 @@
 let allData = [];
 let categories = [];
 fetchInitialData();
-initFilters();
 adminUserMode();
 const gallery = document.querySelector(".gallery"); 
 
@@ -20,6 +19,8 @@ async function fetchInitialData() {
         });
 
         displayData(allData);
+        initFilters();
+
     } catch (error) {
         console.error("Une erreur est survenue lors de la récupération des données:", error);
     }
@@ -63,25 +64,49 @@ function displayData(data) {
 
 // Initialize the filters
 function initFilters() {
-    const filterButtons = document.querySelectorAll('.filter__btn');
-    filterButtons.forEach(button => {
+    const filterContainer = document.querySelector('.filters');
+
+    const allButton = document.createElement('button');
+    allButton.classList.add('filterBtn');
+    allButton.classList.add('filterBtn--actif');
+
+    allButton.setAttribute('value', 'all');
+    allButton.textContent = 'Tous';
+
+    allButton.addEventListener('click', function() {
+        const filterButtons = document.querySelectorAll('.filterBtn');
+        filterButtons.forEach(btn => btn.classList.remove('filterBtn-actif'));
+        this.classList.add('filterBtn-actif');
+        fetchData('all');
+    });
+
+    filterContainer.appendChild(allButton);
+
+    categories.forEach(category => {
+        const button = document.createElement('button');
+        button.classList.add('filterBtn');
+        button.setAttribute('value', category.id);
+        button.textContent = category.name;
         button.addEventListener('click', function() {
-            filterButtons.forEach(btn => btn.classList.remove('filter__btn--active'));
-            this.classList.add('filter__btn--active');
+            const filterButtons = document.querySelectorAll('.filterBtn');
+            filterButtons.forEach(btn => btn.classList.remove('filterBtn-actif'));
+            this.classList.add('filterBtn-actif');
             const categoryId = this.getAttribute('value');
             fetchData(categoryId);
         });
+        filterContainer.appendChild(button);
     });
 }
 
+
 // Admin user mode
 function adminUserMode() {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("accessToken")) {
         document.querySelector(".filters").style.display = "none";
         document.getElementById("logBtn").innerText = "logout";
         logBtn.onclick = function(e) {
             e.preventDefault();
-            localStorage.removeItem("token");
+            localStorage.removeItem("accessToken");
             window.location.href = "index.html";
         };
 
@@ -164,11 +189,11 @@ function createEditModal() {
             if (galleryItem) {
                 const imageId = galleryItem.dataset.imageId;
                 try {
-                    const token = localStorage.getItem("token");
+                    const accessToken = localStorage.getItem("accessToken");
                     const response = await fetch(`http://localhost:5678/api/works/${imageId}`, {
                         method: 'DELETE',
                         headers: {
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer ${accessToken}`
                         }
                     });
     
@@ -308,12 +333,12 @@ function openAddPhotoModal() {
         formData.append('title', photoTitleValue);
         formData.append('category', photoCategoryValue);
     
-        const token = localStorage.getItem("token");
+        const accessToken = localStorage.getItem("accessToken");
         fetch(form.action, {
             method: form.method,
             body: formData,
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${accessToken}`
             }
         })
         .then(response => {
