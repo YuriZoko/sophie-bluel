@@ -1,33 +1,33 @@
-const error = document.querySelector(".error"); 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const submit = document.getElementById("submit");
+const errorBox = document.querySelector(".error-box"); 
+const emailField = document.getElementById("email-field");
+const passwordField = document.getElementById("password-field");
+const loginButton = document.getElementById("login-button");
 
-submit.addEventListener("click", () => {
-    let user = {
-        email: email.value,
-        password: password.value
+loginButton.addEventListener("click", () => {
+    let userCredentials = {
+        email: emailField.value,
+        password: passwordField.value
     };
-    login(user);
+    authenticateUser(userCredentials);
 })
 
-// Login function
-async function login(user) {
-    error.innerHTML = "";
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-z]{2,4}$/;
-    const passwordRegex = /^[a-zA-Z0-9]+$/;
+// Fonction d'authentification
+async function authenticateUser(userCredentials) {
+    errorBox.innerHTML = "";
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-z]{2,4}$/;
+    const passwordPattern = /^[a-zA-Z0-9]+$/;
 
-    if (!emailRegex.test(user.email)) {
-        const p = document.createElement("p");
-        p.innerHTML = "Veuillez entrer une adresse mail valide";
-        error.appendChild(p);
+    if (!emailPattern.test(userCredentials.email)) {
+        const errorParagraph = document.createElement("p");
+        errorParagraph.innerHTML = "Veuillez entrer une adresse e-mail valide.";
+        errorBox.appendChild(errorParagraph);
         return;
     }
 
-    if (user.password.length < 5 || !passwordRegex.test(user.password)) {
-        const p = document.createElement("p");
-        p.innerHTML = "Veuillez entrer un mot de passe valide";
-        error.appendChild(p);
+    if (!passwordPattern.test(userCredentials.password)) {
+        const errorParagraph = document.createElement("p");
+        errorParagraph.innerHTML = "Veuillez entrer un mot de passe valide.";
+        errorBox.appendChild(errorParagraph);
         return;
     }
 
@@ -37,22 +37,22 @@ async function login(user) {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify(user)
+            body: JSON.stringify(userCredentials)
         });
         const result = await response.json();
 
         if (result.error || result.message) {
-            const p = document.createElement("p");
-            p.innerHTML = "La combinaison e-mail/mot de passe est incorrecte";
-            error.appendChild(p);
+            const errorParagraph = document.createElement("p");
+            errorParagraph.innerHTML = "Combinaison e-mail/mot de passe incorrecte.";
+            errorBox.appendChild(errorParagraph);
         } else if (result.token) {
-            localStorage.setItem("token", result.token);
+            localStorage.setItem("accessToken", result.token);
             window.location.href = "index.html";
         }
     } catch (error) {
         console.error("Une erreur est survenue lors de la tentative de connexion:", error);
-        const p = document.createElement("p");
-        p.innerHTML = "Une erreur technique est survenue";
-        error.appendChild(p);
+        const errorParagraph = document.createElement("p");
+        errorParagraph.innerHTML = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+        errorBox.appendChild(errorParagraph);
     }
 }

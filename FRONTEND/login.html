@@ -7,47 +7,44 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
-        <meta name="description" content="">
         <link rel="stylesheet" href="./assets/style.css">
-        <script type="module" src="./assets/scripts/login.js"></script> 
+        <script type="module" src="./assets/scripts/login.js"></script>
     </head>
     <body>
-    <header>
-        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-        <nav>
-            <ul>
-                <li id="indexBtn"><a href="index.html#portfolio">projets</a></li>
-                <li id="contactBtn"><a href="index.html#contact">contact</a></li>
-                <li class="selected">login</li>
-                <li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="login">
-            <h2>Log In</h2>
-            <div class="error">
-            </div>
-            <form action="#" method="POST" class="login__form" onsubmit="return false">
-                <label for="email">E-mail</label>
-                <input type="email" name="email" id="email" required>
-                <div class="loginEmail__error">
+        <header>
+            <h1>Sophie Bluel - Architecte d'intérieur</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html#portfolio">Projets</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li class="selected">Login</li>
+                    <li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="login">
+                <h2>Connexion</h2>
+                <div class="error-box">
                 </div>
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password" required>
-                <div class="loginMdp__error">
-                </div>
-                <input type="submit" value="Se connecter" id="submit">
-            </form>
-            <a href="#">Mot de passe oublié</a>
-        </section>
-    </main>
-    <footer>
-        <nav>
-            <ul>
-                <li>Mentions Légales</li>
-            </ul>
-        </nav>
-    </footer>
+                <form action="#" method="POST" class="login-form" onsubmit="return false">
+                    <label for="email">Adresse e-mail</label>
+                    <input type="email" name="email" id="email-field" required>
+                    <div class="email-error"></div>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password-field" required>
+                    <div class="password-error"></div>
+                    <input type="submit" value="Se connecter" id="login-button">
+                </form>
+                <a href="#">Mot de passe oublié ?</a>
+            </section>
+        </main>
+        <footer>
+            <nav>
+                <ul>
+                    <li>Mentions Légales</li>
+                </ul>
+            </nav>
+        </footer>
     </body>
 </html>
